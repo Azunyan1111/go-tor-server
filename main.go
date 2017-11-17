@@ -1,23 +1,15 @@
 package main
 
 import (
-	"github.com/labstack/echo"
+	"fmt"
 	"net/http"
 )
 
-func main() {
-	// Echoのインスタンス作る
-	e := echo.New()
-
-	// ルーティング
-	e.GET("/", MainPage())
-
-	// サーバー起動
-	e.Start(":8080")
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello, World")
 }
 
-func MainPage() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello World")
-	}
+func main() {
+	http.HandleFunc("/", handler) // ハンドラを登録してウェブページを表示させる
+	http.ListenAndServe(":9000", nil)
 }
